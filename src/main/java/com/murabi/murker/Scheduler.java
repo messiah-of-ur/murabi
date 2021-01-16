@@ -2,6 +2,8 @@ package com.murabi.murker;
 
 import java.util.ArrayList;
 
+import org.javatuples.Pair;
+
 import com.murabi.murker.interchange.GameResponse;
 import com.murabi.murker.interchange.StateResponse;
 import com.murabi.conf.Config;
@@ -15,7 +17,12 @@ public class Scheduler {
         this.client = client;
     }
 
-    public String electMurker() throws java.io.IOException {
+    public Pair<GameResponse, String> scheduleGame(String key) throws java.io.IOException {
+        String murkerAddr = electMurker();
+        return Pair.with(client.createGame(murkerAddr, key), murkerAddr);
+    }
+
+    private String electMurker() throws java.io.IOException {
         int minGameCount = Integer.MAX_VALUE;
         int leastLoadedIdx = 0;
         
