@@ -3,12 +3,12 @@
   <display-name>Murabi</display-name>
   <servlet>
     <servlet-name>murabiServlet</servlet-name>
-    <servlet-class>com.murabi.api.MurabiServlet</servlet-class>
+    <servlet-class>com.murabi.api.GameServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
 
   <servlet-mapping>
     <servlet-name>murabiServlet</servlet-name>
-    <url-pattern>/welcome</url-pattern>
+    <url-pattern>/v1/game</url-pattern>
   </servlet-mapping>
 </web-app>
