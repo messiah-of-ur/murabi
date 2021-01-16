@@ -8,11 +8,13 @@ public class GameResponse {
     public String gameID;
     public String key;
     public String murkerAddr;
+    public int playerID;
 
-    public GameResponse(String gameID, String key, String murkerAddr) {
+    public GameResponse(String gameID, String key, String murkerAddr, int playerID) {
         this.gameID = gameID;
         this.key = key;
         this.murkerAddr = prepareMurkerAddr(murkerAddr);
+        this.playerID = playerID;
     }
 
     private String prepareMurkerAddr(String addr) {
