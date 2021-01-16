@@ -21,11 +21,9 @@ import com.murabi.db.dao.GameDAO;
 import com.murabi.db.dto.GameDTO;
 import com.murabi.api.interchange.GameResponse;
 import com.murabi.api.interchange.GameRequest;
+import com.murabi.api.ServletUtil;
 
 public class GameServlet extends HttpServlet {
-	public static int PLR_0_ID = 0;
-	public static int PLR_1_ID = 1;
-
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		res.setContentType("application/json");
 
@@ -36,8 +34,9 @@ public class GameServlet extends HttpServlet {
 		Client client = new Client(httpClient, gson);
 		Scheduler scheduler = new Scheduler(config, client);	
 		GameResponse resp = null;
-
-		String body = readBody(req);
+		
+		ServletUtil util = new ServletUtil();
+		String body = util.readBody(req);
 		GameRequest gameReq = gson.fromJson(body, GameRequest.class);
 
 		try {
@@ -68,7 +67,7 @@ public class GameServlet extends HttpServlet {
 
 		System.out.println("Reused game" + dto.gameID);
 		dao.updatePlayer(GameDAO.PLR_1, req.nickname, dto.gameID);
-		return new GameResponse(dto.gameID, dto.gameKey, dto.murkerAddr, PLR_1_ID);
+		return new GameResponse(dto.gameID, dto.gameKey, dto.murkerAddr, ServletUtil.PLR_1_ID);
 	}
 
 	private GameResponse scheduleGame(GameRequest req, GameDAO dao, Scheduler scheduler) throws SQLException, IOException {
@@ -83,7 +82,7 @@ public class GameServlet extends HttpServlet {
 
 		dao.insertGame(dto);
 		
-		return new GameResponse(dto.gameID, dto.gameKey, dto.murkerAddr, PLR_0_ID);
+		return new GameResponse(dto.gameID, dto.gameKey, dto.murkerAddr, ServletUtil.PLR_0_ID);
 	}
 
 	private String generateKey() {
@@ -106,22 +105,5 @@ public class GameServlet extends HttpServlet {
 		}
 
 		return out.toString();
-	}
-
-	private String readBody(HttpServletRequest req) throws ServletException {
-		StringBuffer jb = new StringBuffer();
-		String line = null;
-
-		try {
-			BufferedReader reader = req.getReader();
-
-			while ((line = reader.readLine()) != null) {
-				jb.append(line);
-			}
-		} catch (Exception ex) {
-			throw new ServletException(ex.getMessage(), ex.fillInStackTrace());
-		}
-
-		return jb.toString();
 	}
 }

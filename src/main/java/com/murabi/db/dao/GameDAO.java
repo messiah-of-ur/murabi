@@ -59,13 +59,11 @@ public class GameDAO {
     }
 
     public void updatePlayer(String playerCol, String nickname, String gameID) throws SQLException {
-        String query = "UPDATE games SET " + playerCol + "=? WHERE " + GAME_ID + "=?";
         PreparedStatement stmt = null;
 
         try {
-            stmt = conn.prepareStatement(query);
+            stmt = simpleUpdateStatement(playerCol, gameID);
             stmt.setString(1, nickname);
-            stmt.setString(2, gameID);
 
             stmt.executeUpdate();
         } finally {
@@ -89,5 +87,33 @@ public class GameDAO {
         } finally {
             stmt.close();
         }
+    }
+
+    public void finishGame(String gameID, int winner) throws SQLException {
+        PreparedStatement stmt = null;
+
+        try {
+            stmt = simpleUpdateStatement(WINNER, gameID);
+            stmt.setInt(1, winner);
+
+            stmt.executeUpdate();
+        } finally {
+            stmt.close();
+        }
+    }
+
+    private PreparedStatement simpleUpdateStatement(String colName, String gameID) throws SQLException {
+        String query = "UPDATE games SET " + colName + "=? WHERE " + GAME_ID + "=?";
+        PreparedStatement stmt = null;
+
+        try {
+            stmt = conn.prepareStatement(query);
+            stmt.setString(2, gameID);
+        } catch (SQLException e) {
+            stmt.close();
+            throw e;
+        }
+
+        return stmt;
     }
 }

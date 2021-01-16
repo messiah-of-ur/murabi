@@ -2,13 +2,22 @@
 <web-app>
   <display-name>Murabi</display-name>
   <servlet>
-    <servlet-name>murabiServlet</servlet-name>
+    <servlet-name>creationServlet</servlet-name>
     <servlet-class>com.murabi.api.GameServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet>
+    <servlet-name>finishServlet</servlet-name>
+    <servlet-class>com.murabi.api.FinishServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>murabiServlet</servlet-name>
+    <servlet-name>creationServlet</servlet-name>
     <url-pattern>/v1/game</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>finishServlet</servlet-name>
+    <url-pattern>/v1/game/finish</url-pattern>
   </servlet-mapping>
 </web-app>
