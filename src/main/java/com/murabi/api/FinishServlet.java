@@ -30,7 +30,9 @@ public class FinishServlet extends HttpServlet {
             Connection conn = Connector.obtainConn(config);
             GameDAO dao = new GameDAO(conn);
 
-            if (finishReq.winner != ServletUtil.PLR_0_ID && finishReq.winner != ServletUtil.PLR_1_ID) {
+            int winner = finishReq.winner;
+
+            if (winner != ServletUtil.PLR_0_ID && winner != ServletUtil.PLR_1_ID && winner != GameDAO.NO_WINNER) {
                 res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 return;
             }
