@@ -11,6 +11,11 @@
     <servlet-class>com.murabi.api.FinishServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
+  <servlet>
+    <servlet-name>historyServlet</servlet-name>
+    <servlet-class>com.murabi.api.HistoryServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
 
   <servlet-mapping>
     <servlet-name>creationServlet</servlet-name>
@@ -19,5 +24,9 @@
   <servlet-mapping>
     <servlet-name>finishServlet</servlet-name>
     <url-pattern>/v1/game/finish</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>historyServlet</servlet-name>
+    <url-pattern>/v1/history</url-pattern>
   </servlet-mapping>
 </web-app>

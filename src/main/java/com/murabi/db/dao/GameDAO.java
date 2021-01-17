@@ -2,7 +2,6 @@ package com.murabi.db.dao;
 
 import java.util.ArrayList;
 import java.util.Random;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.ResultSet;
@@ -56,6 +55,33 @@ public class GameDAO {
 
         int rnd = new Random().nextInt(dtos.size());
         return dtos.get(rnd);
+    }
+
+    public ArrayList<GameDTO> fetchGameHistory() throws SQLException {
+        String query = "SELECT " + PLR_0 + ", " + PLR_1 + ", " + WINNER + " FROM games " + "WHERE " + WINNER + ">=0 LIMIT 18";
+
+        ArrayList<GameDTO> dtos = new ArrayList<>();
+        Statement stmt = null;
+
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                GameDTO dto = new GameDTO();
+                
+                dto.plr0 = rs.getString(PLR_0);
+                dto.plr1 = rs.getString(PLR_1);
+                dto.winner = rs.getInt(WINNER);
+
+                dtos.add(dto);
+            }
+
+        } finally {
+            stmt.close();
+        }
+
+        return dtos;
     }
 
     public void updatePlayer(String playerCol, String nickname, String gameID) throws SQLException {
