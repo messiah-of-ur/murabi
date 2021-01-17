@@ -15,6 +15,7 @@ import com.murabi.db.Connector;
 import com.murabi.api.ServletUtil;
 
 public class FinishServlet extends HttpServlet {
+    @Override
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         res.setContentType("application/json");
 
@@ -43,5 +44,14 @@ public class FinishServlet extends HttpServlet {
 		} catch (ClassNotFoundException ex) {
 			throw new ServletException(ex.getMessage(), ex.fillInStackTrace());
 		}
+    }
+
+    @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.addHeader("Access-Control-Allow-Origin", "*");
+        resp.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD");
+        resp.addHeader("Access-Control-Allow-Credentials", "true");
+        resp.addHeader("Access-Control-Allow-Headers", "Origin, Content-Type, Access-Control-Allow-Headers, Accept, Authorization, X-Requested-With");
+        resp.addHeader("Access-Control-Max-Age", "1728000");
     }
 }
